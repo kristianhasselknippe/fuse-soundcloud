@@ -1,0 +1,69 @@
+<Page ux:Class="TrackDetailsPage" Background="#4B4B4B" Transition="None" ClipToBounds="true">
+	<EnteringAnimation>
+		<Move X="1" RelativeTo="Size" Duration="0.2" />
+	</EnteringAnimation>
+	<Router ux:Dependency="router"/>
+	<JavaScript File="TrackDetails.js" />
+
+	<WhileActive>
+		<Player ux:Name="player" router="router" Margin="20,5" Alignment="Bottom">
+			<AddingAnimation>
+				<Change player.Opacity="0" Duration="1.3" DelayBack="0.35" />
+			</AddingAnimation>
+		</Player>
+	</WhileActive>
+
+	<DockPanel >
+		<Panel Dock="Top" Padding="26,20">
+			<BackButtonPanel Clicked="{goBack}" Alignment="TopLeft" BackArrowColor="White" Padding="0,0,15,15"/>
+			<StackPanel Alignment="TopCenter" MaxWidth="75%">
+				<Text TextColor="White" Value="{currentTrack.title}" FontSize="18" MaxLength="36" TextAlignment="Center" TextTruncation="Standard" TextWrapping="Wrap"/>
+				<WrapPanel Alignment="Center" Opacity="0.8">
+					<Text TextColor="LightBackgroundColor" Value="{currentTrack.playback_count}"/>
+					<Text Margin="5,0,0,0" TextColor="LightBackgroundColor" Value="listens"/>
+				</WrapPanel>
+			</StackPanel>
+			<WhileTrue Value="{isLoggedIn}">
+				<Panel Clicked="{likeUnlike}" HitTestMode="LocalBounds" Dock="Right" Alignment="TopRight" Padding="0,10" >
+					<LikeIcon Opacity="{favoritedCurrentTrackIcon}"/>
+					<LikeIconPurple />
+				</Panel>
+			</WhileTrue>
+		</Panel>
+	</DockPanel>
+	<Panel Layer="Background" Opacity="0.4" Height="120%" Margin="-10">
+		<AlbumArt Width="20%" Height="20%" TransformOrigin="Center" Alignment="Center">
+			<Blur Radius="2"/>
+			<Scaling Factor="5" />
+		</AlbumArt>
+		
+	</Panel>
+	<StackPanel Y="16%" Width="90%">
+		<Panel Aspect="1" BoxSizing="FillAspect">
+			<Shadow Size="2" Distance="2" Color="#0004"/>
+			<Image Url="{currentTrack.artwork_500}" ux:Class="AlbumArt" StretchMode="UniformToFill">
+				<WhileLoading>
+					<Image ux:Name="placeholderImage" Url="{currentTrack.artwork_url}" Width="100%" Height="100%">
+						<RemovingAnimation>
+							<Change placeholderImage.Opacity="0" Duration="0.5" />
+						</RemovingAnimation>
+					</Image>
+				</WhileLoading>
+			</Image>
+			<AlbumArt />
+		</Panel>
+		<Grid Columns="60,1*,auto" Padding="0,10">
+			<UserThumbnail Url="{currentTrackUser.avatar_url}" Width="45" Height="45" Clicked="{pushUser}" Alignment="Left"/>
+			<StackPanel Alignment="CenterLeft">
+				<Text Value="{currentTrackUser.username}" TextColor="White" FontSize="18" MaxLength="16" TextTruncation="Standard" Margin="0,0,10,0" />
+				<Text Value="{currentTrackUser.followers_count_text}" TextColor="LightBackgroundColor" FontSize="16" Opacity="0.8" Margin="0,0,10,0" />
+			</StackPanel>
+			<WhileTrue Value="{isLoggedIn}">
+				<Panel Clicked="{followUnfollow}" HitTestMode="LocalBounds" Alignment="TopRight" >
+					<Text Value="{followingCurrentTrackText}" Color="White" FontSize="16"
+						  Alignment="Right" />
+				</Panel>
+			</WhileTrue>
+		</Grid>
+	</StackPanel>
+</Page>

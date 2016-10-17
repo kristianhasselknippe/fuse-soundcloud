@@ -1,0 +1,81 @@
+<Page ux:Class="FavoritesPage">
+	<JavaScript File="Favorites.js" />
+	<Router ux:Dependency="router" />
+	<WhileFalse Value="{isLoggedIn}">
+			<Panel Alignment="Center">
+				<PleaseLogIn Text="to view your profile">
+					<Clicked>
+						<Callback Handler="{loginLogoutClicked}" />
+					</Clicked>
+				</PleaseLogIn>
+			</Panel>
+		</WhileFalse>
+	<ScrollView SnapMinTransform="false">
+		<DockPanel>
+			<PullToReloadSpinner IsLoading="{isLoading}" ><!-- figure out how to pass along the callback bindings -->
+				<OnReload>
+					<Callback Handler="{reloadHandler}" />
+				</OnReload>
+			</PullToReloadSpinner>
+			<StackPanel  Color="LightBackgroundColor" ClipToBounds="true">
+				<WelcomeItem Header="Welcome to your profile" StorageId="id1"
+							 Description="Here you can view your personal information, liked tracks and playlists" />
+				<WhileTrue Value="{isLoggedIn}" >
+					<StackPanel>
+						<Image Url="{me.avatar_url}" Layer="Background"  Alignment="TopCenter" ContentAlignment="Center" StretchMode="UniformToFill" Width="100%"  Height="170" Opacity="0.2">
+							<Blur Radius="20"/>
+						</Image>
+						<Grid Columns="auto,auto,1*" Margin="20">
+							<UserThumbnail Url="{me.avatar_url}" Width="80" Height="80"/>
+							<Rectangle Width="1" Color="DarkSeparatorColor" Margin="20,0" Opacity="0.4"/>
+							<StackPanel Alignment="VerticalCenter">
+								<Text Value="{me.username}" Color="DarkTextColor" Alignment="Left" FontSize="24" TextWrapping="Wrap" Margin="0,0,0,10" MaxLength="30"/>
+								<Text Value="{me.full_name}" Color="DarkTextColor"  TextWrapping="Wrap" Alignment="Left" />
+								<Text Value="{me.country}" Color="DarkTextColor" TextWrapping="Wrap" Alignment="Left"/>
+							</StackPanel>
+						</Grid>
+						<Panel  Margin="20,0,20,10">
+							<Text Value="{me.followers_count_text}" Color="DarkTextColor" Alignment="Left" />
+							<Text Value="{me.followings_count_text}" Color="DarkTextColor" Alignment="Center" />
+							<Text Value="Log Out" Color="ThemeColor" Clicked="{loginLogoutClicked}" Alignment="Right"  />
+						</Panel>
+						<Panel Color="White">
+							<Text Value="Liked tracks:" Color="MediumTextColor" FontSize="20" Margin="20,15"/>
+							<DividerLine />
+						</Panel>
+					</StackPanel>
+				</WhileTrue>
+
+				<Selection MinCount="0" MaxCount="1"/>
+				<Each Items="{favoriteTracks}">
+					<FadeInPanel>
+						<Selectable Value="{id}"/>
+						<LayoutAnimation>
+							<Move RelativeTo="PositionChange" Vector="1" Duration="0.3" Easing="CubicInOut"/>
+						</LayoutAnimation>
+						<TrackListItem ux:Name="tli" Title="{title}" Artist="{artist}"
+									   Duration="{durationString}" Artwork="{artwork_url}" Tapped="{pushSongDetails}">
+							<SwipeGesture ux:Name="sg" Direction="Left" Type="Active" LengthNode="unlikeButton"/>
+							<SwipingAnimation Source="sg">
+								<Move X="-1" Duration="1" RelativeTo="Size" RelativeNode="unlikeButton"/>
+							</SwipingAnimation>
+
+							<Swiped Source="sg">
+								<ToggleSelection />
+							</Swiped>
+
+							<Deselected>
+								<Set sg.IsActive="false" />
+							</Deselected>
+						</TrackListItem>
+
+						<Panel ux:Name="unlikeButton" Color="#ee5c42"
+							   Clicked="{unlikeTrack}" Width="25%" Alignment="Right">
+							<Text Value="UNLIKE" Alignment="Center" Color="#fff"/>
+						</Panel>
+					</FadeInPanel>
+				</Each>
+			</StackPanel>
+		</DockPanel>
+	</ScrollView>
+</Page>

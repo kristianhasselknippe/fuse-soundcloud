@@ -1,0 +1,54 @@
+<Panel ux:Class="PullToReloadSpinner" ClipToBounds="True" Dock="Top">
+	<bool ux:Property="IsLoading" />
+	<UserEvent ux:Name="onReload" />
+	<OnUserEvent ux:Class="OnReload" EventName="onReload"/>
+
+	<JavaScript>
+		module.exports.reload = function(){ onReload.raise(); };
+	</JavaScript>
+
+	
+	<Panel ux:Name="pullToRefreshPanel" Height="0" Dock="Top" MinHeight="0" Alignment="Top">
+		<Panel ux:Name="loadingSpinner" Alignment="Bottom" Height="75">
+			<ReloadSpinnerIcon Alignment="Center">
+				<Rotation ux:Name="rotateStart" />
+			</ReloadSpinnerIcon>
+		</Panel>
+
+		<WhileTrue ux:Name="spin">
+		    <Cycle Frequency="1" Low="0" High="-360" Target="rotateStart.Degrees"  Waveform="Sawtooth" Easing="CircularInOut"/>
+		</WhileTrue>
+
+
+		<WhileTrue ux:Name="retainSpace">
+			<Change pullToRefreshPanel.MinHeight="75" Duration="0" DurationBack="0.3" Easing="CircularIn" />
+		</WhileTrue>
+		<PullToReload IsLoading="{Property IsLoading}" ReloadHandler="{reload}">
+			<State ux:Binding="Pulling">
+				<!-- active while pulling -->
+			</State>
+			<State ux:Binding="PulledPastThreshold">
+				<!-- activates when pulled past threshold -->
+			</State>
+			<State ux:Binding="Loading">
+				<Change retainSpace.Value="true" DurationBack="0.5" />
+				<Change spin.Value="true" />
+			</State>
+		</PullToReload>
+
+		<ScrollingAnimation Range="SnapMin">
+			<Change pullToRefreshPanel.Height="150"/>
+		</ScrollingAnimation>
+	</Panel>
+
+
+
+	<Image ux:Class="ReloadSpinnerIcon" Width="48" Height="48" Anchor="54%,50%" TransformOrigin="Anchor">
+		<MultiDensityImageSource>
+			<FileImageSource File="../Assets/Reloading.png" Density="1"/>
+			<FileImageSource File="../Assets/Reloading@2x.png" Density="2"/>
+			<FileImageSource File="../Assets/Reloading@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+
+	</Image>
+</Panel>

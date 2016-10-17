@@ -1,0 +1,70 @@
+<Panel ux:Class="PlayerButtons">
+	<Panel ux:Class="PlayerButton" HitTestMode="LocalBoundsAndChildren">
+		<Clicked>
+			<Scale Factor="0.9" Duration="0.05" Easing="QuadraticInOut"/>
+		</Clicked>
+	</Panel>
+	<PlayerButton ux:Class="PlayButton" HitTestMode="LocalBoundsAndChildren">
+		<JavaScript>
+			var Playlist = require("Playlist");
+			var PLAYING_STATE = require("PlayingState");
+			exports.playPause = function(){
+				if (Playlist.playingState.value === PLAYING_STATE.PAUSED){
+					console.log("JS resuming");
+					Playlist.resume();
+				}else if (Playlist.playingState.value === PLAYING_STATE.STOPPED){
+					console.log("JS playing");
+					Playlist.play();
+				}else{
+					console.log("JS pausing");
+					Playlist.pause();
+				}
+			}
+			exports.isPlaying = Playlist.isPlaying;
+			exports.isLoading = Playlist.isLoading;
+		</JavaScript>
+		<Clicked>
+			<Callback Handler="{playPause}"/>
+		</Clicked>
+		<WhileTrue Value="{isLoading}">
+			<TrackLoadingSpinner />
+			<Change playPausePanel.Opacity="0" Duration="0.15"/>
+		</WhileTrue>
+		<Panel ux:Name="playPausePanel">
+			<WhileFalse Value="{isPlaying}">
+				<PlayIcon/>
+			</WhileFalse>
+			<WhileTrue Value="{isPlaying}">
+				<PauseIcon Margin="5" BarColor="White"/>
+			</WhileTrue>
+		</Panel>
+	</PlayerButton>
+	<PlayerButton ux:Class="PlayPreviousButton">
+		<JavaScript>
+			var Playlist = require("Playlist");
+			exports.hasPrevious = Playlist.hasPrevious.map(function(x){
+				return x ? 1 : 0.4 ;
+			});
+			exports.playPrevious = Playlist.playPrevious;
+		</JavaScript>
+		<Panel Clicked="{playPrevious}" HitTestMode="LocalBounds">
+			<SeekLeftIcon>
+				<DataBinding Target="this.Opacity" Key="hasPrevious" />
+			</SeekLeftIcon>
+		</Panel>
+	</PlayerButton>
+	<PlayerButton ux:Class="PlayNextButton">
+		<JavaScript>
+			var Playlist = require("Playlist");
+			exports.hasNext = Playlist.hasNext.map(function(x){
+				return x ? 1 : 0.4 ;
+			});
+			exports.playNext = Playlist.playNext;
+		</JavaScript>
+		<Panel Clicked="{playNext}" HitTestMode="LocalBounds">
+			<SeekRightIcon>
+				<DataBinding Target="this.Opacity" Key="hasNext" />
+			</SeekRightIcon>
+		</Panel>
+	</PlayerButton>
+</Panel>

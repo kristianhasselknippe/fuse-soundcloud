@@ -1,0 +1,19 @@
+<RangeControl ux:Class="TrackBar" ux:Name="mySlider" HitTestMode="LocalBounds"
+			  Height="20" Minimum="0" Maximum="1">
+	<JavaScript File="TrackBar.js" />
+	<LinearRangeBehavior/>
+	<Panel Height="4">
+		<DataBinding Target="mySlider.Value" Key="sliderValue" />
+		<Panel ux:Name="thumb" Alignment="Left" Width="0%" Height="4" HitTestMode="LocalBounds">
+			<Rectangle CornerRadius="2" Color="White"/>
+		</Panel>
+		<Rectangle CornerRadius="2" Layer="Background" Color="White" Opacity="0.4"/>
+	</Panel>
+	<ProgressAnimation>
+		<Change thumb.Width="100%"/>
+	</ProgressAnimation>
+	<WhileInteracting>
+		<Callback Handler="{interacting}" />
+		<Callback Handler="{seekToSliderValue}" Direction="Backward" />
+	</WhileInteracting>
+</RangeControl>

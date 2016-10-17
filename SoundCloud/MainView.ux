@@ -1,0 +1,42 @@
+<App>
+	<Panel ux:Name="AppContainer">
+		<iOS.StatusBarConfig Style="Dark" ux:Name="iosStyle"/>
+		<Android.StatusBarConfig Color="ThemeColor" ux:Name="androidStyle"/>
+		<Router ux:Name="router" IsMasterRouter="false"/>
+		<JavaScript File="MainView.js" />
+		<Panel ux:Name="rootPanel">
+			<ColorPalette />
+			<MyResources />
+			<ClientPanel>
+				<Panel ux:Name="mainContent" >
+					<Navigator ux:Name="nav" DefaultTemplate="main">
+						<MainPage ux:Template="main" ux:Name="mainPage" router="router">
+							<WhileInactive Threshold="0.001">
+								<Change mainPage.Visibility="Hidden" Delay="1"/>
+							</WhileInactive>
+						</MainPage>
+						<UserPage ux:Template="user" router="router" IsReusable="false"/>
+						<TrackDetailsPage ux:Template="track" ux:Name="trackDetailsPage" router="router" IsReusable="false">
+							<WhileActive>
+								<Change AppContainer.Color="#4B4B4B"/>
+								<Change iosStyle.Style="Light"/>
+								<Change androidStyle.Color="#4B4B4B"/>
+							</WhileActive>
+							<WhileInactive Threshold="0.001">
+								<Change androidStyle.Color="ThemeColor"/>
+								<Change trackDetailsPage.Visibility="Hidden" Delay="1"/>
+							</WhileInactive>
+						</TrackDetailsPage>
+						<CommentsPage ux:Template="comments" router="router" IsReusable="false">
+							<WhileActive>
+								<Change AppContainer.Color="#4B4B4B"/>
+								<Change iosStyle.Style="Light"/>
+								<Change androidStyle.Color="#4B4B4B"/>
+							</WhileActive>
+						</CommentsPage>
+					</Navigator>
+				</Panel>
+			</ClientPanel>
+		</Panel>
+	</Panel>
+</App>

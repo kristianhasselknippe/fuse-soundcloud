@@ -1,0 +1,130 @@
+<Panel ux:Class="MyResources">
+	<Rectangle ux:Class="SeparatorLine" Height="1" Color="LightSeparatorColor"/>
+
+	<Panel ux:Class="CrossIcon" Width="36" Height="36" Background="#fff0">
+		<Rectangle Color="{Property this.CrossColor}" Width="2"  CornerRadius="4" >
+			<Rotation Degrees="45"/>
+		</Rectangle>
+		<Rectangle Color="{Property this.CrossColor}" Width="2"   CornerRadius="4" >
+			<Rotation Degrees="-45"/>
+			<float4 ux:Property="CrossColor"/>
+		</Rectangle>
+		<WhilePressed>
+			<Scale Target="this" Factor="0.9"/>
+		</WhilePressed>
+	</Panel>
+	<Image ux:Class="NewsFeedIcon" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/Newsfeed.png" Density="1"/>
+			<FileImageSource File="Assets/Newsfeed@2x.png" Density="2"/>
+			<FileImageSource File="Assets/Newsfeed@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="LikeIcon" StretchMode="PixelPrecise" >
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/LikeIcon.png" Density="1"/>
+			<FileImageSource File="Assets/LikeIcon@2x.png" Density="2"/>
+			<FileImageSource File="Assets/LikeIcon@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="LikeIconPurple" StretchMode="PixelPrecise" >
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/LikeIconPurple.png" Density="1"/>
+			<FileImageSource File="Assets/LikeIconPurple@2x.png" Density="2"/>
+			<FileImageSource File="Assets/LikeIconPurple@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="PlayIcon" StretchMode="PixelPrecise">
+		<AddingAnimation>
+			<Change this.Opacity="0" Duration="0.2"/>
+		</AddingAnimation>
+		<RemovingAnimation>
+			<Change this.Opacity="0" Duration="0.2"/>
+		</RemovingAnimation>
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/PlayButton.png" Density="1"/>
+			<FileImageSource File="Assets/PlayButton@2x.png" Density="2"/>
+			<FileImageSource File="Assets/PlayButton@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Panel ux:Class="PauseIcon" BarColor="#D9D6D3" Aspect="1" BoxSizing="FillAspect">
+		<float4 ux:Property="BarColor" />
+		<AddingAnimation>
+			<Change this.Opacity="0" Duration="0.2"/>
+		</AddingAnimation>
+		<RemovingAnimation>
+			<Change this.Opacity="0" Duration="0.2"/>
+		</RemovingAnimation>
+		<Grid ColumnCount="2">
+			<Rectangle Color="{Property this.BarColor}" Alignment="Left" Width="55%"/>
+			<Rectangle Color="{Property this.BarColor}" Alignment="Right" Width="55%"/>
+		</Grid>
+	</Panel>
+	<Image ux:Class="ProfileIcon" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/Profile.png" Density="1"/>
+			<FileImageSource File="Assets/Profile@2x.png" Density="2"/>
+			<FileImageSource File="Assets/Profile@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="SearchGraphics" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/SearchGraphic.png" Density="1"/>
+			<FileImageSource File="Assets/SearchGraphic@2x.png" Density="2"/>
+			<FileImageSource File="Assets/SearchGraphic@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="NotLoggedInGraphics" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/NotLoggedIn.png" Density="1"/>
+			<FileImageSource File="Assets/NotLoggedIn@2x.png" Density="2"/>
+			<FileImageSource File="Assets/NotLoggedIn@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="SearchIcon" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/Search.png" Density="1"/>
+			<FileImageSource File="Assets/Search@2x.png" Density="2"/>
+			<FileImageSource File="Assets/Search@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="SeekLeftIcon" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/RewindButton.png" Density="1"/>
+			<FileImageSource File="Assets/RewindButton@2x.png" Density="2"/>
+			<FileImageSource File="Assets/RewindButton@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	<Image ux:Class="SeekRightIcon" StretchMode="PixelPrecise">
+		<MultiDensityImageSource>
+			<FileImageSource File="Assets/ForwardButton.png" Density="1"/>
+			<FileImageSource File="Assets/ForwardButton@2x.png" Density="2"/>
+			<FileImageSource File="Assets/ForwardButton@3x.png" Density="3"/>
+		</MultiDensityImageSource>
+	</Image>
+	
+	<Panel ux:Class="BackArrowIcon" HitTestMode="LocalBoundsAndChildren">
+		<StackPanel Alignment="CenterLeft" Offset="8,0">
+			<Rectangle Width="2" Height="16" Offset="3,3" Color="{Property this.ArrowColor}" CornerRadius="2">
+				<Rotation Degrees="45"/>
+			</Rectangle>
+			<Rectangle Width="2" Height="16" Offset="3,-3" Color="{Property this.ArrowColor}" CornerRadius="2">
+				<Rotation Degrees="-45"/>
+			</Rectangle>
+		</StackPanel>
+		<Rectangle Width="24" Height="2" Color="{Property this.ArrowColor}" Alignment="Center" CornerRadius="2"/>
+		<float4 ux:Property="ArrowColor"/>
+	</Panel>
+	
+	<Circle ux:Class="UserThumbnail">
+		<string ux:Property="Url" />
+		<ImageFill Url="{Property this.Url}" WrapMode="ClampToEdge"/>
+	</Circle>
+	<Panel ux:Class="EqualizerIcon" Height="30" Width="24">
+		<Panel Alignment="Bottom">
+			<Rectangle Height="10" Width="4" Color="ThemeColor" CornerRadius="2" Alignment="BottomLeft" Margin="2" ux:Name="panel1"/>
+			<Rectangle Height="30" Width="4" Color="ThemeColor" CornerRadius="2" Alignment="BottomRight" Margin="2" ux:Name="panel2"/>
+			<Rectangle Height="16" Width="4" Color="ThemeColor"  CornerRadius="2" Alignment="Bottom" Margin="2" ux:Name="panel3"/>
+		</Panel>
+	</Panel>
+</Panel>

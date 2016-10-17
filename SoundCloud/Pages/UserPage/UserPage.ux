@@ -1,0 +1,71 @@
+<Page ux:Class="UserPage" Color="LightBackgroundColor">
+	<Router ux:Dependency="router"/>
+	<JavaScript File="UserPage.js" />
+	<StackPanel>
+		<Panel Alignment="Top" Padding="26,20" Height="80" >
+			<BackButtonPanel Alignment="TopLeft" BackArrowColor="DarkTextColor" Clicked="{goBack}"/>
+			<StackPanel Alignment="TopCenter" MaxWidth="75%">
+				<Text TextColor="DarkTextColor" Value="{user.username}" FontSize="18" MaxLength="36" TextAlignment="Center" TextTruncation="Standard" TextWrapping="Wrap"/>
+				<Panel Alignment="Center">
+					<Text TextColor="MediumTextColor" Value="{user.full_name}" MaxLength="25"/>
+				</Panel>
+			</StackPanel>
+			<LinearGradient StartPoint="0,0" EndPoint="0,1">
+	            <GradientStop Offset="-0.2" Color="#fff" />
+	            <GradientStop Offset="0.6" Color="#fff9" />
+	    	</LinearGradient>
+		</Panel>
+		<Panel Height="2" Opacity="0.4"> <!--dropshadow that doesn't extend behind the parent panel-->
+			<LinearGradient StartPoint="0,0" EndPoint="0,1">
+	            <GradientStop Offset="0" Color="#000" />
+	            <GradientStop Offset="1" Color="#0000" />
+	    	</LinearGradient>
+	    </Panel>
+	</StackPanel>
+	<ScrollView ux:Name="sw" SnapMinTransform="false">
+		<StackPanel Dock="Top" Margin="0,80,0,0">
+			<Grid Rows="360,auto" Dock="Top">
+				<Image Url="{user.avatar_500}" StretchMode="UniformToFill" >
+					<WhileLoading>
+						<Image ux:Name="placeholderImage" Url="{user.avatar_url}" StretchMode="UniformToFill">
+							<RemovingAnimation>
+								<Change placeholderImage.Opacity="0" Duration="0.3"/>
+							</RemovingAnimation>
+						</Image>
+					</WhileLoading>
+				</Image>
+				<StackPanel>
+					<StackPanel Padding="20" Color="#fff">
+						<Panel>
+							<StackPanel Alignment="Left">
+								<Text Value="{user.city}" Color="LightTextColor" MaxLength="25" TextAlignment="Left" Alignment="Left" TextWrapping="Wrap" />
+								<Text Value="{user.country}" Color="LightTextColor"  TextAlignment="Left" Alignment="Left" TextWrapping="Wrap" />
+							</StackPanel>
+							<StackPanel Alignment="Right" >
+								<Text Value="{user.followers_count_text}" Color="LightTextColor"  TextAlignment="Right" />
+								<Text Value="{user.followings_count_text}" Color="LightTextColor"  TextAlignment="Right"   />
+							</StackPanel>
+						</Panel>
+					</StackPanel>
+					<DividerLine />
+					<StackPanel Color="LightBackgroundColor">
+						<Rectangle Fill="#fff" >
+							<WrapPanel Margin="20,15">
+								<Text Value="{user.track_count}" Color="DarkTextColor" FontSize="20" />
+								<Text Value="Tracks:" Color="LightTextColor" FontSize="20" Margin="5,0,0,0"/>
+							</WrapPanel>
+							<DividerLine Alignment="Bottom" />
+						</Rectangle>
+					</StackPanel>
+				</StackPanel>
+			</Grid>
+			<StackPanel>
+				<Each Items="{tracks}">
+					<TrackListItem Title="{title}" Artist="{user.username}"
+								   Duration="{durationString}" Artwork="{artwork_url}"
+								   Clicked="{pushSongDetails}"/>
+				</Each>
+			</StackPanel>
+		</StackPanel>
+	</ScrollView>
+</Page>

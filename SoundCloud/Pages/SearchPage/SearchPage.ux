@@ -1,0 +1,55 @@
+<Page ux:Class="SearchPage" Color="LightBackgroundColor">
+	<Router ux:Dependency="router" />
+	<JavaScript File="Search.js" />
+	<WhileEmpty Items="{trackList}">
+		<Panel>
+			<StackPanel Alignment="Center">
+				<SearchGraphics Margin="32" />
+				<Text Color="LightTextColor" Value="Discover new artists, songs and playlists." />
+			</StackPanel>
+		</Panel>
+	</WhileEmpty>
+	<DockPanel>
+		<Panel Dock="Top">
+        	<Panel Margin="20" Height="40" Alignment="Top">
+				<TextInput Value="{searchTerm}" ActionStyle="Search" ActionTriggered="{performSearch}"
+						   PlaceholderColor="LightPlaceholderTextColor" PlaceholderText="Search term" Padding="20,0,0,0">
+					<Panel Dock="Right" HitTestMode="LocalBounds" Clicked="{abortSearch}">
+						<CrossIcon Height="24" Margin="12" CrossColor="LightTextColor" ux:Name="clearSearch" />
+					</Panel>
+					<Rectangle CornerRadius="4" Color="#fff" Layer="Background">
+						<Stroke Width="1" Color="LightSeparatorColor" ux:Name="SearchBarStroke"/>
+						<Shadow Distance="1" Color="#00000019" ux:Name="SearchBarShadow" Size="1" Angle="90" />
+					</Rectangle>
+					
+					<TextInputActionTriggered>
+						<ReleaseFocus />
+					</TextInputActionTriggered>
+					<WhileFocused>
+						<Change Target="SearchBarStroke.Color" Value="#ECD4F3" />
+						<Change Target="SearchBarShadow.Color" Value="0, 0, 0, 0.2" />
+					</WhileFocused>
+					<WhileContainsText>
+						<Change clearSearch.CrossColor="MediumTextColor"/>
+					</WhileContainsText> 
+				</TextInput>
+				
+			</Panel>
+			
+			<Panel>
+				<LinearGradient StartPoint="0,0" EndPoint="0,1">
+            	<GradientStop Offset="0" Color="LightBackgroundColor" />
+            	<GradientStop Offset="0.8" Color="#fafafa80" />
+            	<GradientStop Offset="1" Color="#fafafa00" />
+        	</LinearGradient>
+        	</Panel>
+		</Panel>
+		<ScrollView Margin="0,0,0,10" ClipToBounds="false">
+			<StackPanel Color="LightBackgroundColor">
+				<Each Items="{trackList}">
+					<TrackListItem Title="{title}" Artist="{artist}" Duration="{durationString}" Artwork="{artwork_url}" Clicked="{pushSongDetails}" />
+				</Each>
+			</StackPanel>
+		</ScrollView>
+	</DockPanel>
+</Page>

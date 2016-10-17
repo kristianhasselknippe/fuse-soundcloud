@@ -1,0 +1,17 @@
+{
+	"Mobile":{
+		"UriScheme": "fuse-soundcloud"
+	},
+	"Projects": [
+		"../StreamingPlayer/StreamingPlayer.unoproj"
+	],
+	"Packages": [
+  		"Fuse",
+  		"FuseJS",
+		"Fuse.Launcher"
+	],
+	"Includes": [
+		"*",
+		"**.js:Bundle"
+	]
+}

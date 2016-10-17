@@ -1,0 +1,64 @@
+<Panel ux:Class="PlayingPanel" HitTestMode="LocalBoundsAndChildren" Height="0" >
+	<JavaScript File="PlayingPanel.js" />
+	<Router ux:Dependency="router" />
+
+	<WhileTrue Value="{isNotStoppedOrError}" Bypass="Never">
+		<Change this.Height="60" />
+	</WhileTrue>
+
+	<SwipeGesture ux:Name="revealDetails" Direction="Up" Type="Active" LengthNode="detailsPanel"/>
+	<SwipingAnimation Source="revealDetails">
+		<Move RelativeTo="Size" Y="-1" RelativeNode="detailsPanel" />
+	</SwipingAnimation>
+
+	<Grid Rows="60,auto">
+		<Panel>
+			<Grid Columns="80,1*">
+				<Panel>
+					<Panel Alignment="Left" Width="45" Margin="20,0,0,0" Clicked="{pauseResume}" HitTestMode="LocalBoundsAndChildren">
+						<WhileTrue Value="{isLoading}">
+							<TrackLoadingSpinner Margin="10" StrokeWidth="2"/>
+						</WhileTrue>
+						<WhileTrue Value="{isPlaying}">
+							<Grid ColumnCount="2" Margin="12,22" Clicked="{pause}">
+								<Rectangle Color="DarkTextColor" Width="3"/>
+								<Rectangle Color="DarkTextColor" Width="3"/>
+							</Grid>
+							<Circle>
+								<SolidColor Color="White" Opacity="0.6"/>
+							</Circle>
+						</WhileTrue>
+						<WhileTrue Value="{isPaused}">
+							<RegularPolygon Sides="3" Margin="12" Color="DarkTextColor">
+								<Rotation Degrees="-30" />
+							</RegularPolygon>
+							<Circle>
+								<SolidColor Color="MediumTextColor" Opacity="0.3"/>
+							</Circle>
+						</WhileTrue>
+					</Panel>
+				</Panel>
+				<Panel Clicked="{pushCurrentTrack}" HitTestMode="LocalBounds">
+					<Text Value="{currentTrack.title}" Color="DarkTextColor" Alignment="VerticalCenter" Margin="0,0,15,0"/>
+				</Panel>
+			</Grid>
+
+		</Panel>
+		<Panel ux:Name="detailsPanel" Height="100">
+			<StackPanel Alignment="VerticalCenter">
+				<Grid ColumnCount="3" Height="50">
+					<PlayPreviousButton />
+					<PlayButton />
+					<PlayNextButton />
+				</Grid>
+			<TrackBar Margin="15,5,15,10"/>
+			</StackPanel>
+		</Panel>
+	</Grid>
+	<Panel Layer="Background" Height="160" ClipToBounds="true" Alignment="Top">
+		<Image Url="{currentTrack.artwork_url}" Opacity="0.2" StretchMode="UniformToFill" Alignment="Top" Margin="-15">
+			<Blur Radius="10" />
+		</Image>
+		<Rectangle Color="#fff"  />
+	</Panel>
+</Panel>

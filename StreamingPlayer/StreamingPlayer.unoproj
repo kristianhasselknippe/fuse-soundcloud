@@ -1,0 +1,22 @@
+{
+	"RootNamespace":"",
+	"Packages": [
+		"Fuse",
+		"FuseJS"
+	],
+	"Includes": [
+		"iOS/StreamingPlayerObjCImpl.h:ObjCHeader:iOS",
+		"iOS/StreamingPlayerObjCImpl.mm:ObjCSource:iOS",
+		"iOS/ObserverProxy.h:ObjCHeader:iOS",
+		"iOS/ObserverProxy.mm:ObjCSource:iOS",
+
+		"Android/AndroidPlayerState.java:Java:Android",
+		"Android/BackgroundAudioPlayer.java:Java:Android",
+		"Android/BackgroundAudioService.java:Java:Android",
+		"Android/Track.java:Java:Android",
+		"Android/ArtworkMediaNotification.java:Java:Android",
+		"Android/Logger.java:Java:Android",
+
+		"*"
+	]
+}

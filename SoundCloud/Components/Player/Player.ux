@@ -1,0 +1,29 @@
+ <Panel ux:Class="Player">
+ 	<Router ux:Dependency="router"/>
+ 	<StackPanel  ItemSpacing="4" ux:Name="MoreButton" Alignment="Right" Background="#fff0" Margin="0,16,0,0" Width="40" Clicked="{gotoComments}"> 
+ 		<WhilePressed>
+			<Scale Target="MoreButton" Factor="0.95"/>
+		</WhilePressed>
+		<Circle Width="4" Height="4" Color="White"/>
+		<Circle Width="4" Height="4" Color="White"/>
+		<Circle Width="4" Height="4" Color="White"/>
+	</StackPanel>
+	<string ux:Property="Url" />
+	<JavaScript File="TrackPlayer.js" />
+	<StackPanel Margin="0,0,0,10">
+		<Grid ColumnCount="3" Width="80%" Height="50" Alignment="Center" Row="1">
+			<PlayPreviousButton  Column="0"/>
+			<PlayButton Column="1"/>
+			<PlayNextButton  Column="2"/>
+		</Grid>
+		<StackPanel>
+			<Panel>
+				<TrackBar />
+			</Panel>
+			<DockPanel>
+				<Text Value="{progress}" Color="White"/>
+				<Text Value="{duration}" Dock="Right" Color="White" Opacity="0.6"/>
+			</DockPanel>
+		</StackPanel>
+	</StackPanel>
+</Panel>

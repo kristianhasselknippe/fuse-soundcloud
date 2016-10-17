@@ -1,0 +1,11 @@
+<Panel ux:Class="PleaseLogIn"  >
+	<string ux:Property="Text"/>
+	<StackPanel Alignment="Center" ItemSpacing="20">
+		<NotLoggedInGraphics />
+		<WrapPanel Alignment="Center">
+			<Text Value="Please" TextColor="LightTextColor" TextAlignment="Center" TextWrapping="Wrap"/>
+			<Text Value="log in" TextColor="ThemeColor" TextAlignment="Center" TextWrapping="Wrap" Margin="5,0,5,0"/>
+			<Text Value="{Property this.Text}" TextColor="LightTextColor" TextAlignment="Center" TextWrapping="Wrap"/>
+		</WrapPanel>
+	</StackPanel>
+</Panel>

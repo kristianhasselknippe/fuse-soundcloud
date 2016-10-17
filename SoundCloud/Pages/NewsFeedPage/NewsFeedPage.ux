@@ -1,0 +1,54 @@
+<Panel ux:Class="NewsFeedPage">
+	<Router ux:Dependency="router" />
+	<JavaScript File="NewsFeed.js" />
+	<Panel>
+		<WhileFalse Value="{isLoggedIn}">
+			<Panel Alignment="Center">
+				<PleaseLogIn Text="to view your News Feed">
+					<Clicked>
+						<Callback Handler="{loginLogoutClicked}" />
+					</Clicked>
+				</PleaseLogIn>
+			</Panel>
+		</WhileFalse>
+		<ScrollView SnapMinTransform="false">
+			<DockPanel>
+				<PullToReloadSpinner IsLoading="{isLoading}">
+					<OnReload>
+						<Callback Handler="{reloadHandler}" />
+					</OnReload>
+				</PullToReloadSpinner>
+				<StackPanel Color="LightBackgroundColor">
+					<WelcomeItem Header="Welcome to your newsfeed" StorageId="id2"
+								 Description="Here you can discover the latest releases and see what is trending right now" />
+					<Each Items="{activities}">
+						<Panel>
+							<Match Value="{type}">
+								<Case String="track">
+									<TrackListItem Title="{origin.title}" Artist="{origin.artist}"
+												   Duration="{origin.durationString}" Artwork="{origin.artwork_url}"
+												   Clicked="{pushSongDetails}" Color="White"/>
+								</Case>
+								<Case String="track-repost">
+									<TrackListItem Title="{origin.title}" Artist="{origin.artist}"
+												   Duration="{origin.durationString}" Artwork="{origin.artwork_url}"
+												   Clicked="{pushSongDetails}" Color="White"/>
+								</Case>
+								<Case String="post">
+									<StackPanel>
+										<Panel Height="20" Color="Red" />
+										<Comment ux:Name="comment" Clicked="{pushUser}" ThumbnailUrl="{origin.avatar_url}"
+												 Username="{origin.username}" Body="{origin.body}" />
+									</StackPanel>
+								</Case>
+							</Match>
+						</Panel>
+					</Each>
+				</StackPanel>
+			</DockPanel>
+			<WhileScrollable ScrollDirections="Down" Invert="true">
+				<Callback Handler="{fetchMore}"/>
+			</WhileScrollable>
+		</ScrollView>
+	</Panel>
+</Panel>

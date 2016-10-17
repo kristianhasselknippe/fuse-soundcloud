@@ -1,0 +1,8 @@
+<Panel ux:Class="FadeInPanel">
+	<AddingAnimation>
+		<Change this.Opacity="0" Duration="0.2" Easing="QuadraticInOut" />
+	</AddingAnimation>
+	<RemovingAnimation>
+		<Change this.Opacity="0" Duration="0.2" Easing="QuadraticInOut" />
+	</RemovingAnimation>
+</Panel>

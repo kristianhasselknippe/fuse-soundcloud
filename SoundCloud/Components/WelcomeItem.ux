@@ -1,0 +1,22 @@
+<DockPanel ux:Class="WelcomeItem" Margin="0,15,0,5" Color="White" StorageId="0">
+	<JavaScript File="WelcomeItem.js" />
+	<string ux:Property="Header" />
+	<string ux:Property="Description" />
+	<string ux:Property="StorageId" />
+	<Rectangle Height="1" Color="LightSeparatorColor" Dock="Top" />
+	<Rectangle Height="1" Color="LightSeparatorColor" Dock="Bottom" />
+	<WhileTrue Value="{gotIt}">
+		<Move X="1" RelativeTo="Size" Duration=".35" Easing="QuadraticOut"/>
+		<Change this.Visibility="Collapsed" Delay=".35"/>
+	</WhileTrue>
+
+	<StackPanel Margin="5,10">
+		<Text Value="{Property this.Header}" TextAlignment="Center"
+			  FontSize="19" Margin="5"/>
+		<Text Value="{Property this.Description}" Alignment="Center"
+			  TextWrapping="Wrap" TextAlignment="Center" Margin="5" FontSize="15"/>
+		<Panel Padding="5" Alignment="Right" Clicked="{okGotIt}">
+			<Text Value="OKAY, GOT IT" Color="ThemeColor"/>
+		</Panel>
+	</StackPanel>
+</DockPanel>

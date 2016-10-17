@@ -1,0 +1,17 @@
+<Panel ux:Class="BackButtonPanel" HitTestMode="LocalBoundsAndChildren">
+	<float4 ux:Property="BackArrowColor"/>
+	
+	<Panel Alignment="Left" HitTestMode="LocalBounds" Background="#fff0">
+		<WhilePressed>
+			<Scale Target="backArrow" Factor="0.9"/>
+		</WhilePressed>
+		<BackArrowIcon Height="40" Width="40" ux:Name="backArrow" ArrowColor="{Property this.BackArrowColor}" />
+	</Panel>
+	
+	<AddingAnimation>
+		<Change this.Opacity="0" Duration="0.2"/>
+	</AddingAnimation>
+	<RemovingAnimation>
+		<Change this.Opacity="0" Duration="0.2"/>
+	</RemovingAnimation>
+</Panel>

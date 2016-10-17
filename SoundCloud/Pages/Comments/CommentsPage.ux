@@ -1,0 +1,67 @@
+<Page ux:Class="CommentsPage" Transition="None">
+	<EnteringAnimation>
+        <Move Y="1" RelativeTo="Size" Duration="0.4" Easing="CubicOut" />
+    </EnteringAnimation>
+    <ExitingAnimation>
+        <Move Y="1" RelativeTo="Size" Duration="0.4" Easing="CubicIn" />
+    </ExitingAnimation>
+	<JavaScript File="../TrackPage/TrackDetails.js" />
+	<Router ux:Dependency="router"/>
+	<Grid Margin="10" ClipToBounds="True" Rows="auto,1*" Color="White">
+		<Grid Dock="Top" Columns="1*,48">
+			<Text Margin="20,10" Alignment="CenterLeft" FontSize="20" Value="Comments"/>
+			<Panel Padding="20,10" Clicked="{goBack}" HitTestMode="LocalBounds" Alignment="Right">
+				<CrossIcon Height="28" Width="28" Alignment="Center" CrossColor="DarkTextColor"/>
+			</Panel>
+		</Grid>
+		<ScrollView>
+			<StackPanel>
+				<Grid ux:Class="Comment" Columns="80,1*">
+					<string ux:Property="ThumbnailUrl" />
+					<string ux:Property="Username" />
+					<string ux:Property="Body" />
+					<UserThumbnail Alignment="VerticalCenter" Margin="8" Url="{Property this.ThumbnailUrl}" Width="40" Height="40"/>
+					<StackPanel Alignment="VerticalCenter" ItemSpacing="2" Padding="20,20,10,20">
+						<Text Value="{Property this.Username}" FontSize="16" Color="DarkTextColor"/>
+						<Text Value="{Property this.Body}" FontSize="16" Color="LightTextColor" TextWrapping="Wrap"/>
+					</StackPanel>
+					<AddingAnimation>
+						<Change this.Opacity="0" Duration="0.2" />
+					</AddingAnimation>
+					<RemovingAnimation>
+						<Change this.Opacity="0" Duration="0.2" />
+					</RemovingAnimation>
+					<LayoutAnimation>
+						<Move RelativeTo="PositionChange" Vector="1" Duration="0.2" />
+					</LayoutAnimation>
+				</Grid>
+				<WhileTrue Value="{isLoggedIn}">
+					<Grid Columns="80,1*" Padding="20,20,10,20" >
+						<UserThumbnail Alignment="VerticalCenter" Margin="8" Url="{me.avatar_url}" Width="40" Height="40"/>
+						<TextInput Value="{newCommentBody}" FontSize="16" TextColor="#000"
+								   TextWrapping="Wrap" ActionStyle="Send" Height="35" Margin="0,20,20,20" ActionTriggered="{addNewComment}"
+								   PlaceholderText="Add a comment" PlaceholderColor="#aaa" Alignment="VerticalCenter" >
+							<Rectangle Height="1" Color="#aaa" Dock="Bottom" />
+							<TextInputActionTriggered>
+								<ReleaseFocus />
+							</TextInputActionTriggered>
+						</TextInput>
+					</Grid>
+				</WhileTrue>
+				<Each Items="{comments}">
+					<Deferred>
+						<DividerLine Alignment="Top"/>
+						<Comment ux:Name="comment" Clicked="{pushUser}" ThumbnailUrl="{avatar_url}" Username="{username}" Body="{body}" />
+					</Deferred>
+				</Each>
+			</StackPanel>
+			<Scrolled To="End" Within="100">
+				<Callback Handler="{showMoreComments}" />
+			</Scrolled>
+		</ScrollView>
+	</Grid>
+	<AlbumArt Width="20%" Height="20%" TransformOrigin="Center" Alignment="Center">
+		<Blur Radius="2"/>
+		<Scaling Factor="5" />
+	</AlbumArt>
+</Page>

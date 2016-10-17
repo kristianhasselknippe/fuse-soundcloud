@@ -1,0 +1,59 @@
+<DockPanel ux:Class="MainPage">
+	<Router ux:Dependency="router" />
+	<JavaScript File="../../Components/PlayingPanel.js" />
+	<WhileTrue  Bypass="Never" Value="{isNotStoppedOrError}">
+		<Change playingTabItem.Visibility="Visible" /> <!--Value="{isNotStoppedOrError}"-->
+		<Change playingTabItem.LayoutRole="Standard" />
+		<Change tabBar.ColumnCount="4" />
+	</WhileTrue>
+	<Panel Dock="Bottom" Height="55">
+		<Shadow Size="2" Distance="2" Angle="-90" Color="#0004"/>
+		<Rectangle ux:Name="pageControlIndicator" Height="2" Color="ThemeColor"
+				   LayoutMaster="newsFeedTabItem" Alignment="Bottom">
+			<LayoutAnimation>
+				<Move RelativeTo="PositionChange" X="1" Duration="0.4" Easing="CircularInOut"/>
+			</LayoutAnimation>
+		</Rectangle>
+		<Panel ux:Class="TabBarItem" Margin="15,0" HitTestMode="LocalBounds"/>
+		<Grid ux:Name="tabBar" Color="White" ColumnCount="3" >
+			<TabBarItem ux:Name="newsFeedTabItem" Opacity="0.6" Clicked="{gotoNewsFeed}">
+				<NewsFeedIcon />
+			</TabBarItem>
+			<TabBarItem ux:Name="searchTabItem" Opacity="0.6" Clicked="{gotoSearch}">
+				<SearchIcon />
+			</TabBarItem>
+			<TabBarItem ux:Name="favoritesTabItem" Opacity="0.6" Clicked="{gotoFavorites}">
+				<ProfileIcon /><!-- get favorites icon instead -->
+			</TabBarItem>
+			<TabBarItem LayoutRole="Inert" ux:Name="playingTabItem" Opacity="0.6" Visibility="Hidden" Clicked="{pushCurrentTrack}">
+				<EqualizerIcon/>
+			</TabBarItem>
+		</Grid>
+	</Panel>
+	<PageControl ux:Name="pageControl" Active="searchPage" InactiveState="Unchanged">
+		<Page ux:Name="newsFeedPage" HitTestMode="LocalBoundsAndChildren">
+			<NewsFeedPage router="router"/>
+			<WhileActive Threshold="0.5">
+				<Set pageControlIndicator.LayoutMaster="newsFeedTabItem" />
+				<Change newsFeedTabItem.Opacity="1" Duration="0.2" Delay="0.2"/>
+			</WhileActive>
+		</Page>
+		<Page ux:Name="searchPage" ClipToBounds="True">
+			<SearchPage router="router" IsReusable="false"/>
+			<WhileActive Threshold="0.5">
+				<Set pageControlIndicator.LayoutMaster="searchTabItem" />
+				<Change searchTabItem.Opacity="1" Duration="0.2" Delay="0.2"/>
+			</WhileActive>
+		</Page>
+		<Page ux:Name="favoritesPage" >
+			<FavoritesPage router="router"/>
+			<WhileActive Threshold="0.5">
+				<Set pageControlIndicator.LayoutMaster="favoritesTabItem" />
+				<Change favoritesTabItem.Opacity="1" Duration="0.2" Delay="0.2"/>
+			</WhileActive>
+		</Page>
+		<LayoutAnimation>
+			<Resize RelativeTo="SizeChange" Y="1" Duration="0.3"/>
+		</LayoutAnimation>
+	</PageControl>
+</DockPanel>
